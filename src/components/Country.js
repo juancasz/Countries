@@ -12,7 +12,7 @@ const Country = ({country}) =>{
     const[weather,setWeather] = useState([])
 
     const hook = () => {
-        axios.get(`https://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
+        axios.get(`http://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
             .then(response => {
                 if(response.data.sucess !== false){
                     setWeather(response.data)
