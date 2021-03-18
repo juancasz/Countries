@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import BeatLoader from "react-spinners/BeatLoader";
 import Weather from './Weather'
 import axios from 'axios'
 import styled from 'styled-components'
@@ -72,7 +73,7 @@ const Country = ({country}) =>{
     const[weather,setWeather] = useState([])
 
     const hook = () => {
-        if(country.capital){
+        if(country && country.capital){
             axios.get(`https://cors-proxy-casz.herokuapp.com/http://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
             .then(response => {
                 if(response.data.sucess !== false){
@@ -82,11 +83,19 @@ const Country = ({country}) =>{
         }
     }
     
-    useEffect(hook,[api_key_weather,country.capital])  
+    useEffect(hook,[api_key_weather,country])  
 
     const languages = country.languages.map((language,index)=>{
         return <ParagraphLanguage key={index} language={language}/>
     })
+
+    if(!country){
+        return (
+            <CountryContainer>
+                <BeatLoader size={25}/>
+            </CountryContainer>
+        )
+    }
 
     return(
         <React.Fragment>
