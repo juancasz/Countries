@@ -72,12 +72,14 @@ const Country = ({country}) =>{
     const[weather,setWeather] = useState([])
 
     const hook = () => {
-        axios.get(`https://cors-proxy-casz.herokuapp.com/http://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
+        if(country.capital){
+            axios.get(`https://cors-proxy-casz.herokuapp.com/http://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
             .then(response => {
                 if(response.data.sucess !== false){
                     setWeather(response.data)
                 }
             })
+        }
     }
     
     useEffect(hook,[api_key_weather,country.capital])  
