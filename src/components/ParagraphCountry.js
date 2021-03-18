@@ -21,9 +21,9 @@ const ParagraphCountry = (props) => {
 
     return <Option 
                 id={index} 
-                onClick={(e) => handleClick(e)} 
+                onClick={handleClick} 
             >
-                <Flag src={country.flag} width='25' alt="flag"/>{country.name}
+                <Flag src={country.flag} id={index} width='25' alt="flag"/>{country.name}
             </Option>
 }
 

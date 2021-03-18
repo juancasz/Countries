@@ -90,11 +90,7 @@ const Country = ({country}) =>{
     }):[]
 
     if(!country){
-        return (
-            <CountryContainer>
-                <BeatLoader size={25}/>
-            </CountryContainer>
-        )
+        return <BeatLoader size={25}/>
     }
 
     return(
