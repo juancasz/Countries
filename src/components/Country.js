@@ -85,9 +85,9 @@ const Country = ({country}) =>{
     
     useEffect(hook,[api_key_weather,country])  
 
-    const languages = country.languages.map((language,index)=>{
+    const languages = country?country.languages.map((language,index)=>{
         return <ParagraphLanguage key={index} language={language}/>
-    })
+    }):[]
 
     if(!country){
         return (
