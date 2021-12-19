@@ -45,7 +45,7 @@ const App = () => {
   const[indexShow,setindexShow] = useState(0)
 
   const hook = () => {
-    axios.get('https://restcountries.eu/rest/v2/all')
+    axios.get(process.env.REACT_APP_COUNTRIES_API)
         .then(response => {
           setCountries(response.data)
         })
@@ -63,7 +63,7 @@ const App = () => {
     setShow(!show)
   }
 
-  const countriesToDisplay = countries.filter((country) => country.name.toLowerCase().indexOf(searchFor)>-1 && searchFor !== "")
+  const countriesToDisplay = countries.filter((country) => country.name.common.toLowerCase().indexOf(searchFor)>-1 && searchFor !== "")
 
   if(countries.length === 0){
     return(
@@ -71,7 +71,7 @@ const App = () => {
         <Card>
           <BeatLoader size={50} />
         </Card>
-    </Background>
+      </Background>
     )
   }
 
@@ -79,9 +79,17 @@ const App = () => {
     <Background>
       <Card>
         <h1>Search Countries</h1>
-        <Input onChange={handleInput} placeholder="Write the name of the country"/>
-        <Display countries={countriesToDisplay} indexShow={indexShow} 
-            handleClick={(event) => handleClick(event)} show={show} searchFor={searchFor}/>
+        <Input 
+          onChange={handleInput} 
+          placeholder="Write the name of the country"
+        />
+        <Display 
+          countries={countriesToDisplay} 
+          indexShow={indexShow} 
+          handleClick={(event) => handleClick(event)} 
+          show={show} 
+          searchFor={searchFor}
+        />
       </Card>
     </Background>
   )
