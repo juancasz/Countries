@@ -42,7 +42,8 @@ const App = () => {
   const[countries,setCountries] = useState([])
   const[searchFor,setSearchFor] = useState("") 
   const[show,setShow]= useState(false)
-  const[indexShow,setindexShow] = useState(0)
+  const[indexShow,setIndexShow] = useState(0)
+  const[indexHover,setIndexHover] = useState(-1)
 
   const hook = () => {
     axios.get(process.env.REACT_APP_COUNTRIES_API)
@@ -55,12 +56,42 @@ const App = () => {
 
   const handleInput = (event) => {
     setSearchFor(event.target.value.toLowerCase())
-    setShow(false)  
+    setShow(false)
+    setIndexHover(-1)  
   }
 
   const handleClick = (event) => {
-    setindexShow(event.target.id)
+    setIndexShow(event.target.id)
     setShow(!show)
+    setIndexHover(-1)
+  }
+
+  const handleMouseEnter = (event) => {
+    setIndexHover(event.target.id)
+  }
+
+  const handleMouseLeave = () => {
+    setIndexHover(-1)
+  }
+
+  const handleKeyUp = () => {
+    if (!show && countriesToDisplay.length>0){
+      if(indexHover < 1){
+        setIndexHover(countriesToDisplay.length-1)
+      }else if(indexHover>=1){
+        setIndexHover(indexHover-1)
+      }     
+    }
+  }
+
+  const handleKeyDown = () => {
+    if (!show && countriesToDisplay.length>0){
+      if(indexHover < 0 || indexHover === countriesToDisplay.length-1){
+        setIndexHover(0)
+      }else if(indexHover>=0){
+        setIndexHover(indexHover+1)
+      }     
+    }
   }
 
   const countriesToDisplay = countries.filter((country) => country.name.common.toLowerCase().indexOf(searchFor)>-1 && searchFor !== "")
@@ -87,6 +118,10 @@ const App = () => {
           countries={countriesToDisplay} 
           indexShow={indexShow} 
           handleClick={(event) => handleClick(event)} 
+          handleMouseEnter={(event) => handleMouseEnter(event)}
+          handleMouseLeave={() => handleMouseLeave()}
+          handleKeyUp={() => handleKeyUp()}
+          handleKeyDown={() => handleKeyDown()}
           show={show} 
           searchFor={searchFor}
         />

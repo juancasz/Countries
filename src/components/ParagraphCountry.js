@@ -16,12 +16,16 @@ const ParagraphCountry = (props) => {
     const{
         index,
         handleClick,
+        handleMouseEnter,
+        handleMouseLeave,
         country,
     } = props
 
     return <Option 
                 id={index} 
                 onClick={handleClick} 
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
             >
                 <Flag src={country.flags.png} id={index} width='25' alt="flag"/>{country.name.common}
             </Option>

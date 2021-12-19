@@ -18,9 +18,16 @@ const Display = (props) => {
   }else if(props.countries.length>1){
     const list = props.show?
                   <Country country={props.countries[props.indexShow]} />:
-                  <Options>
+                  <Options onKeyUp={props.handleKeyUp} onKeyDown={props.handleKeyDown}>
                     {props.countries.map((country,index) => {
-                        return <ParagraphCountry key={index} index={index} country={country} handleClick={props.handleClick}/>
+                        return <ParagraphCountry 
+                                  key={index} 
+                                  index={index} 
+                                  country={country} 
+                                  handleClick={props.handleClick}
+                                  handleMouseEnter={props.handleMouseEnter}
+                                  handleMouseLeave={props.handleMouseLeave}
+                                />
                     })}
                   </Options>
     return <>{list}</>
