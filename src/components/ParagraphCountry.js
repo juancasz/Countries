@@ -23,7 +23,7 @@ const ParagraphCountry = (props) => {
                 id={index} 
                 onClick={handleClick} 
             >
-                <Flag src={country.flag} id={index} width='25' alt="flag"/>{country.name}
+                <Flag src={country.flags.png} id={index} width='25' alt="flag"/>{country.name.common}
             </Option>
 }
 

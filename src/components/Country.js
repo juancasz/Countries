@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import BeatLoader from "react-spinners/BeatLoader";
 import Weather from './Weather'
+import ParagraphLanguage  from './ParagraphLanguage';
 import axios from 'axios'
 import styled from 'styled-components'
 
@@ -63,10 +64,6 @@ const WeatherContainer = styled.div`
     }
 `
 
-const ParagraphLanguage = ({language}) => {
-  return <dt>{language.name}</dt>
-}
-
 const Country = ({country}) =>{
     
     const api_key_weather = process.env.REACT_APP_API_KEY
@@ -74,7 +71,7 @@ const Country = ({country}) =>{
 
     const hook = () => {
         if(country && country.capital){
-            axios.get(`https://cors-proxy-casz.herokuapp.com/http://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
+            axios.get(process.env.REACT_APP_COUNTRY_WEATHER_API+`?access_key=${api_key_weather}&query=${country.capital}`)
             .then(response => {
                 if(response.data.sucess !== false){
                     setWeather(response.data)
@@ -83,9 +80,10 @@ const Country = ({country}) =>{
         }
     }
     
-    useEffect(hook,[api_key_weather,country])  
+    useEffect(hook,[api_key_weather,country]) 
 
-    const languages = country?country.languages.map((language,index)=>{
+
+    const languages = country?Object.values(country.languages).map((language,index)=>{
         return <ParagraphLanguage key={index} language={language}/>
     }):[]
 
@@ -95,10 +93,10 @@ const Country = ({country}) =>{
 
     return(
         <React.Fragment>
-            <h2>{country.name}</h2>
+            <h2>{country.name.common}</h2>
             <CountryContainer>
                 <FlagContainer>
-                    <Flag src={country.flag} width='170' alt="flag"/>
+                    <Flag src={country.flags.png} width='170' alt="flag"/>
                 </FlagContainer>
                 <Info>
                     <div><b>Capital</b> {country.capital}<br/></div>
