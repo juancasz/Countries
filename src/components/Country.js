@@ -80,9 +80,10 @@ const Country = ({country}) =>{
         }
     }
     
-    useEffect(hook,[api_key_weather,country])  
+    useEffect(hook,[api_key_weather,country]) 
 
-    const languages = country?country.languages.map((language,index)=>{
+
+    const languages = country?Object.values(country.languages).map((language,index)=>{
         return <ParagraphLanguage key={index} language={language}/>
     }):[]
 
@@ -92,10 +93,10 @@ const Country = ({country}) =>{
 
     return(
         <React.Fragment>
-            <h2>{country.name}</h2>
+            <h2>{country.name.common}</h2>
             <CountryContainer>
                 <FlagContainer>
-                    <Flag src={country.flag} width='170' alt="flag"/>
+                    <Flag src={country.flags.png} width='170' alt="flag"/>
                 </FlagContainer>
                 <Info>
                     <div><b>Capital</b> {country.capital}<br/></div>

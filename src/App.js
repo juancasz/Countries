@@ -63,7 +63,7 @@ const App = () => {
     setShow(!show)
   }
 
-  const countriesToDisplay = countries.filter((country) => country.name.toLowerCase().indexOf(searchFor)>-1 && searchFor !== "")
+  const countriesToDisplay = countries.filter((country) => country.name.common.toLowerCase().indexOf(searchFor)>-1 && searchFor !== "")
 
   if(countries.length === 0){
     return(
