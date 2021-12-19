@@ -71,7 +71,7 @@ const Country = ({country}) =>{
 
     const hook = () => {
         if(country && country.capital){
-            axios.get(`https://cors-proxy-casz.herokuapp.com/http://api.weatherstack.com/current?access_key=${api_key_weather}&query=${country.capital}`)
+            axios.get(process.env.REACT_APP_COUNTRY_WEATHER_API+`?access_key=${api_key_weather}&query=${country.capital}`)
             .then(response => {
                 if(response.data.sucess !== false){
                     setWeather(response.data)

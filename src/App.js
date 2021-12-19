@@ -45,7 +45,7 @@ const App = () => {
   const[indexShow,setindexShow] = useState(0)
 
   const hook = () => {
-    axios.get('https://restcountries.eu/rest/v2/all')
+    axios.get(process.env.REACT_APP_COUNTRIES_API)
         .then(response => {
           setCountries(response.data)
         })
