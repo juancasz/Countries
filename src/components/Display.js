@@ -13,24 +13,23 @@ const Options = styled.div`
 `
 
 const Display = (props) => {
-
-    if(props.countries.length>10){
-      return <>Too many matches, specify another filter </>
-    }else if(props.countries.length>1){
-      const list = props.show?
-                   <Country country={props.countries[props.indexShow]} />:
-                   <Options>
-                      {props.countries.map((country,index) => {
-                          return <ParagraphCountry key={index} index={index} country={country} handleClick={props.handleClick}/>
-                      })}
-                   </Options>
-      return <>{list}</>
-    }else if(props.countries.length === 1){
-      return <Country country={props.countries[0]} />
-    }else if(props.searchFor !== ""){
-      return <>No Results</>
-    }
-    return <div></div>
+  if(props.countries.length>10){
+    return <>Too many matches, specify another filter </>
+  }else if(props.countries.length>1){
+    const list = props.show?
+                  <Country country={props.countries[props.indexShow]} />:
+                  <Options>
+                    {props.countries.map((country,index) => {
+                        return <ParagraphCountry key={index} index={index} country={country} handleClick={props.handleClick}/>
+                    })}
+                  </Options>
+    return <>{list}</>
+  }else if(props.countries.length === 1){
+    return <Country country={props.countries[0]} />
+  }else if(props.searchFor !== ""){
+    return <>No Results</>
+  }
+  return <div></div>
 }
 
 export default Display

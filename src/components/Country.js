@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import BeatLoader from "react-spinners/BeatLoader";
 import Weather from './Weather'
+import ParagraphLanguage  from './ParagraphLanguage';
 import axios from 'axios'
 import styled from 'styled-components'
 
@@ -62,10 +63,6 @@ const WeatherContainer = styled.div`
         grid-row-end: 4; 
     }
 `
-
-const ParagraphLanguage = ({language}) => {
-  return <dt>{language.name}</dt>
-}
 
 const Country = ({country}) =>{
     

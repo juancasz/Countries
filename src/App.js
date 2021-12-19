@@ -71,7 +71,7 @@ const App = () => {
         <Card>
           <BeatLoader size={50} />
         </Card>
-    </Background>
+      </Background>
     )
   }
 
@@ -79,9 +79,17 @@ const App = () => {
     <Background>
       <Card>
         <h1>Search Countries</h1>
-        <Input onChange={handleInput} placeholder="Write the name of the country"/>
-        <Display countries={countriesToDisplay} indexShow={indexShow} 
-            handleClick={(event) => handleClick(event)} show={show} searchFor={searchFor}/>
+        <Input 
+          onChange={handleInput} 
+          placeholder="Write the name of the country"
+        />
+        <Display 
+          countries={countriesToDisplay} 
+          indexShow={indexShow} 
+          handleClick={(event) => handleClick(event)} 
+          show={show} 
+          searchFor={searchFor}
+        />
       </Card>
     </Background>
   )
