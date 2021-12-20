@@ -20,7 +20,16 @@ const Display = (props) => {
                   <Country country={props.countries[props.indexShow]} />:
                   <Options>
                     {props.countries.map((country,index) => {
-                        return <ParagraphCountry key={index} index={index} country={country} handleClick={props.handleClick}/>
+                        return <ParagraphCountry 
+                                  key={index} 
+                                  index={index}
+                                  indexHover={props.indexHover} 
+                                  usingKeyboard={props.usingKeyboard}
+                                  country={country} 
+                                  handleClick={props.handleClick}
+                                  handleMouseEnter={props.handleMouseEnter}
+                                  handleMouseLeave={props.handleMouseLeave}
+                                />
                     })}
                   </Options>
     return <>{list}</>
