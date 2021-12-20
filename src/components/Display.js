@@ -18,11 +18,13 @@ const Display = (props) => {
   }else if(props.countries.length>1){
     const list = props.show?
                   <Country country={props.countries[props.indexShow]} />:
-                  <Options onKeyUp={props.handleKeyUp} onKeyDown={props.handleKeyDown}>
+                  <Options>
                     {props.countries.map((country,index) => {
                         return <ParagraphCountry 
                                   key={index} 
-                                  index={index} 
+                                  index={index}
+                                  indexHover={props.indexHover} 
+                                  usingKeyboard={props.usingKeyboard}
                                   country={country} 
                                   handleClick={props.handleClick}
                                   handleMouseEnter={props.handleMouseEnter}

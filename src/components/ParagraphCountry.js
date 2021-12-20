@@ -1,13 +1,20 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled,{css} from 'styled-components'
 
 const Flag = styled.img`
     width:100%,
     height: auto
 `
 const Option = styled.div`
-    &:hover{
-        background-color: #ff6600;
+    background-color: ${props => props.id === props.indexHover? "#ff6600":"black"};
+    
+    ${props => !props.usingKeyboard && css`
+        &:hover {
+            background-color:#ff6600 ;
+        }
+    `}
+
+    &:hover {
         cursor: pointer;
     }
 `
@@ -15,6 +22,8 @@ const Option = styled.div`
 const ParagraphCountry = (props) => {
     const{
         index,
+        indexHover,
+        usingKeyboard,
         handleClick,
         handleMouseEnter,
         handleMouseLeave,
@@ -23,6 +32,8 @@ const ParagraphCountry = (props) => {
 
     return <Option 
                 id={index} 
+                indexHover = {indexHover}
+                usingKeyboard = {usingKeyboard}
                 onClick={handleClick} 
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

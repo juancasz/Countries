@@ -15,6 +15,9 @@ const Background = styled.div`
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  &:focus {
+    outline: none;
+  }
 `
 
 const Card =  styled.div`
@@ -42,6 +45,7 @@ const App = () => {
   const[countries,setCountries] = useState([])
   const[searchFor,setSearchFor] = useState("") 
   const[show,setShow]= useState(false)
+  const[usingKeyboard,setUsingKeyboard] = useState(false)
   const[indexShow,setIndexShow] = useState(0)
   const[indexHover,setIndexHover] = useState(-1)
 
@@ -64,33 +68,50 @@ const App = () => {
     setIndexShow(event.target.id)
     setShow(!show)
     setIndexHover(-1)
+    setUsingKeyboard(false)
   }
 
   const handleMouseEnter = (event) => {
-    setIndexHover(event.target.id)
+    setIndexHover(Number(event.target.id))
+    setUsingKeyboard(false)
   }
 
   const handleMouseLeave = () => {
     setIndexHover(-1)
   }
 
-  const handleKeyUp = () => {
-    if (!show && countriesToDisplay.length>0){
-      if(indexHover < 1){
-        setIndexHover(countriesToDisplay.length-1)
-      }else if(indexHover>=1){
-        setIndexHover(indexHover-1)
-      }     
-    }
-  }
-
-  const handleKeyDown = () => {
-    if (!show && countriesToDisplay.length>0){
-      if(indexHover < 0 || indexHover === countriesToDisplay.length-1){
-        setIndexHover(0)
-      }else if(indexHover>=0){
-        setIndexHover(indexHover+1)
-      }     
+  const handleKeyPress = (event) => {
+    switch (event.keyCode){
+      case 38:
+        if (!show && countriesToDisplay.length>0){
+          setUsingKeyboard(true)
+          if(indexHover < 1){
+            setIndexHover(countriesToDisplay.length-1)
+          }else if(indexHover>=1){
+            setIndexHover(indexHover-1)
+          }     
+        }
+        break
+      case 40:
+        if (!show && countriesToDisplay.length>0){
+          setUsingKeyboard(true)
+          if(indexHover < 0 || indexHover === countriesToDisplay.length-1){
+            setIndexHover(0)
+          }else if(indexHover>=0){
+            setIndexHover(indexHover+1)
+          }     
+        }
+        break
+      case 13:
+        if ((!show && countriesToDisplay.length>0) && indexHover>=0){
+          setIndexShow(indexHover)
+          setShow(!show)
+          setIndexHover(-1)
+          setUsingKeyboard(false)
+        }
+        break
+      default:
+        break
     }
   }
 
@@ -107,7 +128,10 @@ const App = () => {
   }
 
   return(
-    <Background>
+    <Background
+      onKeyDown={handleKeyPress}
+      tabIndex={-1}
+    >
       <Card>
         <h1>Search Countries</h1>
         <Input 
@@ -116,14 +140,14 @@ const App = () => {
         />
         <Display 
           countries={countriesToDisplay} 
-          indexShow={indexShow} 
+          indexShow={indexShow}
+          indexHover = {indexHover} 
           handleClick={(event) => handleClick(event)} 
           handleMouseEnter={(event) => handleMouseEnter(event)}
           handleMouseLeave={() => handleMouseLeave()}
-          handleKeyUp={() => handleKeyUp()}
-          handleKeyDown={() => handleKeyDown()}
           show={show} 
           searchFor={searchFor}
+          usingKeyboard={usingKeyboard}
         />
       </Card>
     </Background>
