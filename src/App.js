@@ -15,6 +15,9 @@ const Background = styled.div`
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  &:focus {
+    outline: none;
+  }
 `
 
 const Card =  styled.div`
@@ -42,7 +45,9 @@ const App = () => {
   const[countries,setCountries] = useState([])
   const[searchFor,setSearchFor] = useState("") 
   const[show,setShow]= useState(false)
-  const[indexShow,setindexShow] = useState(0)
+  const[usingKeyboard,setUsingKeyboard] = useState(false)
+  const[indexShow,setIndexShow] = useState(0)
+  const[indexHover,setIndexHover] = useState(-1)
 
   const hook = () => {
     axios.get(process.env.REACT_APP_COUNTRIES_API)
@@ -55,12 +60,59 @@ const App = () => {
 
   const handleInput = (event) => {
     setSearchFor(event.target.value.toLowerCase())
-    setShow(false)  
+    setShow(false)
+    setIndexHover(-1)  
   }
 
   const handleClick = (event) => {
-    setindexShow(event.target.id)
+    setIndexShow(event.target.id)
     setShow(!show)
+    setIndexHover(-1)
+    setUsingKeyboard(false)
+  }
+
+  const handleMouseEnter = (event) => {
+    setIndexHover(Number(event.target.id))
+    setUsingKeyboard(false)
+  }
+
+  const handleMouseLeave = () => {
+    setIndexHover(-1)
+  }
+
+  const handleKeyPress = (event) => {
+    switch (event.keyCode){
+      case 38:
+        if (!show && countriesToDisplay.length>0){
+          setUsingKeyboard(true)
+          if(indexHover < 1){
+            setIndexHover(countriesToDisplay.length-1)
+          }else if(indexHover>=1){
+            setIndexHover(indexHover-1)
+          }     
+        }
+        break
+      case 40:
+        if (!show && countriesToDisplay.length>0){
+          setUsingKeyboard(true)
+          if(indexHover < 0 || indexHover === countriesToDisplay.length-1){
+            setIndexHover(0)
+          }else if(indexHover>=0){
+            setIndexHover(indexHover+1)
+          }     
+        }
+        break
+      case 13:
+        if ((!show && countriesToDisplay.length>0) && indexHover>=0){
+          setIndexShow(indexHover)
+          setShow(!show)
+          setIndexHover(-1)
+          setUsingKeyboard(false)
+        }
+        break
+      default:
+        break
+    }
   }
 
   const countriesToDisplay = countries.filter((country) => country.name.common.toLowerCase().indexOf(searchFor)>-1 && searchFor !== "")
@@ -76,7 +128,10 @@ const App = () => {
   }
 
   return(
-    <Background>
+    <Background
+      onKeyDown={handleKeyPress}
+      tabIndex={-1}
+    >
       <Card>
         <h1>Search Countries</h1>
         <Input 
@@ -85,10 +140,14 @@ const App = () => {
         />
         <Display 
           countries={countriesToDisplay} 
-          indexShow={indexShow} 
+          indexShow={indexShow}
+          indexHover = {indexHover} 
           handleClick={(event) => handleClick(event)} 
+          handleMouseEnter={(event) => handleMouseEnter(event)}
+          handleMouseLeave={() => handleMouseLeave()}
           show={show} 
           searchFor={searchFor}
+          usingKeyboard={usingKeyboard}
         />
       </Card>
     </Background>
